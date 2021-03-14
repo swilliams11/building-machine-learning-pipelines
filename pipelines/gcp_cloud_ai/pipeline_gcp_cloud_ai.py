@@ -9,13 +9,17 @@ pipeline_name = "consumer_complaint_pipeline_cloud_ai_to_cloud_bucket"
 
 # temp yaml file for Kubeflow Pipelines
 output_filename = f"{pipeline_name}.yaml"
+# This path is incorrect as the os.getcwd() already includes pipelines/gcp_cloud_ai
+#output_dir = os.path.join(
+#    os.getcwd(), "pipelines", "gcp_cloud_ai", "argo_pipeline_files"
+#)
 output_dir = os.path.join(
-    os.getcwd(), "pipelines", "gcp_cloud_ai", "argo_pipeline_files"
+    os.getcwd(), "argo_pipeline_files"
 )
 
 # Directory and data locations (uses Google Cloud Storage).
-input_bucket = "gs://consumer_complaint_gcp_cloud_ai"
-output_bucket = "gs://consumer_complaint_gcp_cloud_ai"
+input_bucket = "gs://machine-learning-engineer-consumer_complaint_gcp_cloud_ai"
+output_bucket = "gs://machine-learning-engineer-consumer_complaint_gcp_cloud_ai"
 data_dir = os.path.join(input_bucket, "data")
 
 tfx_root = os.path.join(output_bucket, "tfx_pipeline")
@@ -24,7 +28,7 @@ ai_platform_distributed_training = False
 serving_model_dir = os.path.join(output_bucket, "serving_model_dir")
 
 # Google Cloud Platform project id to use when deploying this pipeline.
-project_id = "oreilly-book"  # <--- needs update by the user
+project_id = "machine-learning-engineer"  # <--- needs update by the user
 
 # Python module file to inject customized logic into the TFX components. The
 # Transform and Trainer both require user-defined functions to run
@@ -116,6 +120,7 @@ if __name__ == "__main__":
     absl.logging.set_verbosity(absl.logging.INFO)
 
     module_path = os.getcwd()
+    print(module_path)
     if module_path not in sys.path:
         sys.path.append(module_path)
 
